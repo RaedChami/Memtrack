@@ -3,10 +3,10 @@
 
 int main(void) 
 {
-    char *a=my_malloc(1);
-    char *b=my_malloc(1);
-    my_free(a);
+    char *a=_my_malloc(1);
+    char *b=_my_malloc(1);
+    _my_free(a);
     b++;
-    my_free(b);
+    _my_free(b);
     return 0;
 }
