@@ -2,10 +2,10 @@
 #define MTRACK_04_H
 #include <stdio.h>
 
-#define malloc(taille) my_malloc(taille)
-#define free(adresse) my_free(adresse)
+#define malloc(taille) _my_malloc(taille)
+#define free(adresse) _my_free(adresse)
 
-void* my_malloc(size_t taille);
-void my_free(void* adresse);
+void* _my_malloc(size_t taille);
+void _my_free(void* adresse);
 
 #endif
