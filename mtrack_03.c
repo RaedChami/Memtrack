@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-bool flag = false;
+bool _tracker_flag = false;
 
 typedef struct {
     void* adresse;
     size_t taille_allouee;
     bool alloc;
-} Cellule;
+} _tracker_cell;
 
 typedef struct {
-    Cellule *cellules;
+    _tracker_cell *cellules;
     size_t taille;
     size_t capacite;
     int cmpt_malloc;
@@ -26,7 +26,7 @@ Environnement table;
 
 void init_environnement() {
     table.capacite = 2;
-    table.cellules = (Cellule*)malloc(table.capacite * sizeof(Cellule));
+    table.cellules = (_tracker_cell*)malloc(table.capacite * sizeof(_tracker_cell));
     table.taille = 0;
     table.cmpt_malloc = 0;
     table.cmpt_free_reussi = 0;
@@ -61,19 +61,19 @@ void bilan_table() {    // Affichage du bilan
 
 void f(void) {  // Fonction Sortie
     bilan_table();
-    flag = false;
+    _tracker_flag = false;
     nettoyage_env();    
 }
  
 void activation() {  // Fonction Activation
-    if (!flag) {   
+    if (!_tracker_flag) {   
         init_environnement();
-        flag = true;
+        _tracker_flag = true;
         atexit(f);
     }
 }
 
-void* my_malloc(size_t taille) {
+void* _my_malloc(size_t taille) {
     activation();   // Activation à l'appel du clone de malloc()
     void* adresse = malloc(taille);
     if (!adresse) exit(1);
@@ -99,7 +99,7 @@ void* my_malloc(size_t taille) {
     return adresse;
 }
 
-void my_free(void* adresse) {
+void _my_free(void* adresse) {
     activation();   // Activation à l'appel du clone de free()
     if (!adresse) { 
         table.cmpt_free_echouee++; 
