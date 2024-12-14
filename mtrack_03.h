@@ -2,7 +2,7 @@
 #define MTRACK_03_H
 #include <stddef.h>
 
-void* my_malloc(size_t taille);
-void my_free(void* adresse);
+void* _my_malloc(size_t taille);
+void _my_free(void* adresse);
 
 #endif
