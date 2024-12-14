@@ -6,10 +6,10 @@ typedef struct {
     void* adresse;
     size_t taille_allouee;
     bool alloc;
-} Cellule;
+} _tracker_cell;
 
 typedef struct {
-    Cellule *cellules;
+    _tracker_cell *cellules;
     size_t taille;
     size_t capacite;
     int cmpt_malloc;
@@ -24,7 +24,7 @@ Environnement table;
 
 void init_environnement() { // Initialisation de l'environement
     table.capacite = 2;
-    table.cellules = (Cellule*)malloc(table.capacite * sizeof(Cellule));
+    table.cellules = (_tracker_cell*)malloc(table.capacite * sizeof(_tracker_cell));
     table.taille = 0;
     table.cmpt_malloc = 0;
     table.cmpt_free_reussi = 0;
@@ -47,7 +47,7 @@ void bilan_table() {    // Affichage du bilan
 }
 
 
-void* my_malloc(size_t taille) {
+void* _my_malloc(size_t taille) {
     void* adresse = malloc(taille);
     if (!adresse) exit(1);
     for (int i = 0; i < table.taille; i++) {
@@ -72,7 +72,7 @@ void* my_malloc(size_t taille) {
     return adresse;
 }
 
-void my_free(void* adresse) {
+void _my_free(void* adresse) {
     if (!adresse) { 
         table.cmpt_free_echouee++; 
         return;
@@ -100,11 +100,11 @@ void my_free(void* adresse) {
 int main(void)
 {
     init_environnement();
-    char *a=my_malloc(1);
-    char *b=my_malloc(1);
-    my_free(a);
+    char *a=_my_malloc(1);
+    char *b=_my_malloc(1);
+    _my_free(a);
     b++;
-    my_free(b);
+    _my_free(b);
     bilan_table();
     return 0;
 }
